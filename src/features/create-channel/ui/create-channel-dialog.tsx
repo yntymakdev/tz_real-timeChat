@@ -48,13 +48,11 @@ export function CreateChannelDialog({ onCreate }: CreateChannelDialogProps) {
           <DialogDescription>Create a new channel for your team to communicate</DialogDescription>
         </DialogHeader>
 
-        {/* Channel Name */}
         <div className="flex flex-col gap-1">
           <label className="text-sm text-slate-300">Channel Name</label>
           <Input placeholder="general" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
         </div>
 
-        {/* Description */}
         <div className="flex flex-col gap-1 mt-3">
           <label className="text-sm text-slate-300">Description (optional)</label>
           <Input

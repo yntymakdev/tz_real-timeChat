@@ -1,4 +1,3 @@
-// "@/shared/lib/storage.ts"
 export const storage = {
   get: <T>(key: string): T | null => {
     if (typeof window === "undefined") return null;
@@ -17,7 +16,6 @@ export const storage = {
       const data = JSON.stringify(value);
       localStorage.setItem(key, data);
 
-      // Trigger storage event for cross-tab sync
       window.dispatchEvent(
         new StorageEvent("storage", {
           key,
