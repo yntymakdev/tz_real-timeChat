@@ -9,11 +9,9 @@ import { useChannels } from "@/entities/channel/model/use-channel";
 export function ChatApplication() {
   const { currentUser, createUser, logout } = useUser();
 
-  // хуки вызываются всегда, вне условий
   const channelsHook = useChannels(currentUser);
   const messagesHook = useMessages();
 
-  // если пользователь не авторизован — показываем форму
   if (!currentUser) {
     return <AuthForm onAuth={(name) => createUser(name)} />;
   }

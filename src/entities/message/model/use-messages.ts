@@ -10,25 +10,21 @@ import { useRealtimeSync } from "@/shared/hooks/use-realtime-sync";
 export function useMessages() {
   const [messages, setMessages] = useState<Record<string, Message[]>>({});
 
-  // Load messages
   useEffect(() => {
     const saved = (storage.get(STORAGE_KEYS.MESSAGES) || {}) as Record<string, Message[]>;
     setMessages(saved);
   }, []);
 
-  // Save messages
-const saveMessages = useCallback((newMessages: Record<string, Message[]>) => {
-  setMessages(newMessages);
-  storage.set(STORAGE_KEYS.MESSAGES, newMessages);
-}, []);
+  const saveMessages = useCallback((newMessages: Record<string, Message[]>) => {
+    setMessages(newMessages);
+    storage.set(STORAGE_KEYS.MESSAGES, newMessages);
+  }, []);
 
-  // Real-time sync
   const handleSyncEvent = useCallback((event: any) => {
     if (event.type === "MESSAGE_SENT") {
       setMessages((prev) => {
         const channelMessages = prev[event.message.channelId] || [];
 
-        // Check if message already exists
         if (channelMessages.find((m) => m.id === event.message.id)) {
           return prev;
         }

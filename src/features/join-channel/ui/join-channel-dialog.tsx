@@ -17,8 +17,8 @@ import { Channel } from "@/shared/types";
 import { Users, Search } from "lucide-react";
 
 interface JoinChannelDialogProps {
-  channels?: Channel[]; // may be undefined, guard it
-  currentUserId?: string; // optional: id текущего пользователя чтобы знать joined state
+  channels?: Channel[];
+  currentUserId?: string;
   onJoin: (channelId: string) => void | Promise<void>;
 }
 
@@ -27,29 +27,25 @@ export function JoinChannelDialog({ channels = [], currentUserId, onJoin }: Join
   const [search, setSearch] = useState("");
   const [loadingJoin, setLoadingJoin] = useState<string | null>(null);
 
-  // Простая фильтрация — мемоизирована
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return channels;
     return channels.filter((ch) => ch.name.toLowerCase().includes(q));
   }, [channels, search]);
 
-  // Обработчик Join: поддерживает async onJoin
   const handleJoin = async (channelId: string) => {
     try {
       setLoadingJoin(channelId);
-      await Promise.resolve(onJoin(channelId)); // поддерживаем sync/async
+      await Promise.resolve(onJoin(channelId));
       setOpen(false);
       setSearch("");
     } catch (err) {
       console.error("Join error:", err);
-      // можно показать toast/уведомление об ошибке
     } finally {
       setLoadingJoin(null);
     }
   };
 
-  // Для клавиатуры: очистка поиска при закрытии
   useEffect(() => {
     if (!open) setSearch("");
   }, [open]);
@@ -71,7 +67,6 @@ export function JoinChannelDialog({ channels = [], currentUserId, onJoin }: Join
           </DialogDescription>
         </DialogHeader>
 
-        {/* Search */}
         <div className="relative mb-4">
           <Search className="absolute left-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
           <Input
@@ -83,7 +78,6 @@ export function JoinChannelDialog({ channels = [], currentUserId, onJoin }: Join
           />
         </div>
 
-        {/* Channel list */}
         <ScrollArea className="max-h-80">
           {filtered.length === 0 ? (
             <div className="py-6 text-center text-sm text-slate-400">No channels found</div>

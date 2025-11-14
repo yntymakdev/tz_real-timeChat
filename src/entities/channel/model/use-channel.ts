@@ -6,7 +6,6 @@ import { storage, STORAGE_KEYS } from "@/shared/lib/storage";
 import { realtimeSync } from "@/shared/lib/realtime-sync";
 import { useRealtimeSync } from "@/shared/hooks/use-realtime-sync";
 
-// Генератор ID для каналов
 function generateId(prefix: string) {
   return `${prefix}_${Math.random().toString(36).substr(2, 9)}`;
 }
@@ -15,7 +14,6 @@ export function useChannels(currentUser: User | null) {
   const [channels, setChannels] = useState<Channel[]>([]);
   const [activeChannelId, setActiveChannelId] = useState<string | null>(null);
 
-  // Load channels
   useEffect(() => {
     const saved = storage.get<Channel[]>(STORAGE_KEYS.CHANNELS) || [];
     setChannels(saved);
@@ -26,13 +24,11 @@ export function useChannels(currentUser: User | null) {
     }
   }, [currentUser]);
 
-  // Save channels
   const saveChannels = useCallback((newChannels: Channel[]) => {
     setChannels(newChannels);
     storage.set(STORAGE_KEYS.CHANNELS, newChannels);
   }, []);
 
-  // Real-time sync handler
   const handleSyncEvent = useCallback((event: SyncEvent) => {
     switch (event.type) {
       case "CHANNEL_CREATED":
