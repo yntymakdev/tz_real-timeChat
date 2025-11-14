@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Realtime Chat App (Только фронтенд)
 
-## Getting Started
+## Обзор
 
-First, run the development server:
+Это **фронтенд-реализация чата в реальном времени**, построенная с использованием **Next.js 15** и компонентов **shadcn/ui**. Приложение позволяет пользователям:
+
+- Создавать и присоединяться к каналам
+- Отправлять и получать сообщения в реальном времени
+- Просматривать участников каждого канала
+- Удалять участников из канала (если вы создатель)
+- Искать пользователей
+- Наслаждаться современным UI на shadcn/ui
+
+> ⚠️ Внимание: этот проект является **только фронтенд-демо**.
+
+---
+
+## Как это работает
+
+- Приложение использует **localStorage** для хранения пользователей, каналов и сообщений **локально** на устройстве.
+- Пользуется кастомной системой `realtimeSync`, которая **симулирует обновления в реальном времени** внутри одного браузера или между вкладками.
+- Такой подход обеспечивает **моментальные обновления** без сервера или внешних сервисов.
+
+---
+
+## Ограничения
+
+Из-за отсутствия бекенда или базы данных:
+
+1. **Нет поддержки мультиюзеров на разных устройствах**  
+   - Другие пользователи на других устройствах не видят созданные каналы или сообщения.
+   - LocalStorage и client-side sync работают только для одного браузера.
+
+2. **Нет сохранения сообщений и каналов между сессиями**  
+   - Закрытие браузера или вкладки очищает локальное состояние.
+
+3. **Использование Pusher или аналогичных сервисов**  
+   - Pusher обеспечивает только **реалтайм**, но **не хранит историю** сообщений и каналов.
+   - Следовательно, невозможно полностью реализовать мультиюзерный чат с историей без сервера.
+
+4. **Решения с сервером или бекендом**  
+   - Реализация через Node.js + Socket.IO или серверлес API позволила бы полный мультиюзерный функционал.
+   - Однако бесплатные серверлес платформы (например, Vercel) **медленные, могут “засыпать”**, что приводит к задержкам при первом подключении.
+   - В одном из моих прошлых проектов я реализовал фронтенд + бекенд, но проект отклонили из-за медленного сервера.
+
+---
+
+## Почему выбран фронтенд-only подход
+
+- ТЗ акцентирует внимание на **frontend-навыках**: React, Next.js, UI, хуки, чистый код.
+- Цель была **быстро показать рабочий чат**:
+  - Все функции ТЗ реализованы на фронтенде
+  - Реалтайм работает локально
+  - Чистый, отзывчивый интерфейс
+- Начал работу поздно вечером вчера и закончил сегодня, чтобы успеть показать полный функционал фронтенда.
+
+> Продемонстрировано, что функционал работает **локально и внутри одного браузера/устройства**.
+
+---
+
+## Возможные улучшения
+
+Если использовать полноценный бекенд (например, Supabase, Firebase или Node.js + Socket.IO):
+
+- Чат будет полностью мультиюзерным.
+- История сообщений и каналов будет сохраняться.
+- Реалтайм будет работать на всех устройствах.
+- Но бесплатные серверлес решения часто медленные или “засыпают”.
+
+---
+
+## Технологии
+
+- **Next.js 15** (App Router)  
+- **React**  
+- **shadcn/ui**  
+- **TypeScript**  
+- **Lucide Icons**  
+- **LocalStorage** для клиентской сохранности  
+- Кастомный хук `realtimeSync` для имитации real-time  
+
+---
+
+## Запуск проекта
 
 ```bash
+# Установка зависимостей
+npm install
+
+# Запуск дев-сервера
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Сборка проекта для продакшена
+npm run build
+npm start
