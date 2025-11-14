@@ -76,6 +76,7 @@
 - **shadcn/ui**  
 - **TypeScript**  
 - **Lucide Icons**  
+- **FSD**  
 - **LocalStorage** для клиентской сохранности  
 - Кастомный хук `realtimeSync` для имитации real-time  
 
